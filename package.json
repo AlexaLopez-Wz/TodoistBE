@@ -1,0 +1,23 @@
+{
+  "name": "todoistbe",
+  "version": "1.0.0",
+  "description": "",
+  "homepage": "https://github.com/AlexaLopez-Wz/TodoistBE#readme",
+  "bugs": {
+    "url": "https://github.com/AlexaLopez-Wz/TodoistBE/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AlexaLopez-Wz/TodoistBE.git"
+  },
+  "license": "ISC",
+  "author": "",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "todoistTest": "newman run './BackEnd/Collection/Todoist.postman_collection.json' -e './BackEnd/Environment/TodoistBE.postman_environment.json'"
+  },
+  "dependencies": {
+    "newman": "^6.2.1"
+  }
+}

@@ -1,0 +1,46 @@
+name: Run todoist BE test
+
+on: [push, pull_request]
+env:
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+jobs:
+  API_Testing:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: '14.x'
+      - run : npm run todoistTest
+  success_Notification:
+    needs: API_Testing
+    name: Slack Success Notification
+    runs-on: ubuntu-latest
+    if: success()
+    steps:
+    - uses: actions/checkout@v2
+    - name: Slack Success Notification
+      uses: rtCamp/action-slack-notify@v2
+    env:
+      SLACK_MESSAGE: 'All the todoist test cases passed successfully'
+      SLACK_TITLE: Test Success
+      SLACK_USERNAME: testBot
+      SLACK_COLOR: '#00ff00'
+      SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}  
+  falure_Notification:
+    needs: API_Testing
+    name: Slack Failure Notification
+    runs-on: ubuntu-latest
+    if: failure()
+    steps:
+    - uses: actions/checkout@v2
+    - name: Slack Failure Notification
+      uses: rtCamp/action-slack-notify@v2
+    env:
+      SLACK_MESSAGE: 'Some test cases failed, please check the console logs'
+      SLACK_TITLE: Test Failure
+      SLACK_USERNAME: testBot
+      SLACK_COLOR: '#ff0000'
+      SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+      
